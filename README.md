@@ -13,4 +13,6 @@ the app will have personal branding to distinguish itself from other reviewing w
 
 
 Current Sprint: 1.
+                                                                                                      
+                                                                                                      
 Last Updated: September 17th 2026.
