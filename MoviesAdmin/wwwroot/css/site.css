@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  background-color: lightgray;
 }
 
 @media (min-width: 768px) {
@@ -18,7 +19,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: lightgray;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,4 +30,12 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.lg {
+    background-color: lightseagreen;
+}
+
+.lightgrey{
+    background-color:lightgray;
 }

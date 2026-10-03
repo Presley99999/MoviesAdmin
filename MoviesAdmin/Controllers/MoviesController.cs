@@ -146,4 +146,9 @@ public class MoviesController : Controller
     {
         return _context.Movie.Any(e => e.Id == id);
     }
+
+    public async Task<IActionResult> AllMovies()
+    {
+        return View(await _context.Movie.ToListAsync());
+    }
 }

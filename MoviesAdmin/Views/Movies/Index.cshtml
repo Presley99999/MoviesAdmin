@@ -1,10 +1,10 @@
 @model IEnumerable<MoviesAdmin.Models.Movie>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Add Movies";
 }
 
-<h1>Index</h1>
+<h1>Add Movies</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -49,14 +49,14 @@
                 @Html.DisplayFor(model => item.Rating)
             </td>
             <td>
-                @Html.DisplayFor(model => item.Runtime)
+                @Html.DisplayFor(model => item.Runtime) mins 
             </td>
             <td>
                 @Html.DisplayFor(model => item.ReleaseDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+               
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

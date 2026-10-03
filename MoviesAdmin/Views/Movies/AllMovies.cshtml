@@ -14,7 +14,9 @@
 
 @foreach(var movie in Model)
 {
-    <h2>
-        @movie.Title
-    </h2>
+    <h5>
+        @movie.Title (@movie.ReleaseDate)
+        
+    </h5>
+    <p><a asp-action="Details" asp-route-id="@movie.Id">Details</a></p>
 }
