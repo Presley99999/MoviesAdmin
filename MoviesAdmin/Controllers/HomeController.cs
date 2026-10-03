@@ -16,7 +16,7 @@ namespace MoviesAdmin.Controllers
             return View();
         }
 
-        public IActionResult GetMovie()
+        public IActionResult Movies()
         {
             //sample movie
             Movie movie = new Movie();
@@ -30,7 +30,7 @@ namespace MoviesAdmin.Controllers
             return View(movie);
         }
 
-        public IActionResult GetAllMovies(List<Movie> movies1)
+        public IActionResult AllMovies(List<Movie> movies1)
         {
             List<Movie> movies = new List<Movie>();
             Movie movie = new Movie();
