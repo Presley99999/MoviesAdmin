@@ -1,0 +1,21 @@
+﻿@model MoviesAdmin.Models.Movie
+
+@{
+    ViewData["Title"] = "Movie Details: " + Model.Title;
+}
+
+<h1>
+    @Model.Title
+</h1>
+
+<p>
+    @Model.ReleaseDate
+    @Model.Synopsis
+</p>
+
+<p>
+    
+    Rating: @Model.Rating<br />
+    Runtime: @Model.Runtime mins<br />
+    Genre: @Model.Genre
+</p>

@@ -1,1 +1,20 @@
-﻿@
+﻿@model List<MoviesAdmin.Models.Movie>
+
+@{
+    ViewData["Title"] = "All Movies";
+}
+
+<h1>
+    All Movies
+</h1>
+
+<p>
+    @Model.Count movies.
+</p>
+
+@foreach(var movie in Model)
+{
+    <h2>
+        @movie.Title
+    </h2>
+}
