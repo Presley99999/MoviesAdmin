@@ -18,7 +18,6 @@ public class MoviesController : Controller
         var movies = _context.Movie
         .OrderBy(m => m.ReleaseDate)
         .ToList();
-
         return View(movies);
         
     }
@@ -154,6 +153,9 @@ public class MoviesController : Controller
 
     public async Task<IActionResult> AllMovies()
     {
-        return View(await _context.Movie.ToListAsync());
+        var movies = _context.Movie
+        .OrderBy(m => m.ReleaseDate)
+        .ToList();
+        return View(movies);
     }
 }
