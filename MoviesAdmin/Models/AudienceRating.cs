@@ -1,6 +1,5 @@
 ﻿namespace MoviesAdmin.Models
 {
-    public class AudienceRating
     {
         public int Id { get; set; }
 
