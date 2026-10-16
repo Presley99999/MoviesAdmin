@@ -36,29 +36,34 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <th>
                 @Html.DisplayFor(model => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Synopsis)
-            </td>
-            <td>
+            </th>
+            <th>
+                    @(item.Synopsis?.Length > 100
+                        ? item.Synopsis.Substring(0, 100) + "..."
+                        : item.Synopsis)
+
+            </th>
+            <th>
                 @Html.DisplayFor(model => item.Genre)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(model => item.Rating)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(model => item.Runtime) mins 
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(model => item.ReleaseDate)
-            </td>
-            <td>
+            </th>
+            <th>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
                
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            </th>
         </tr>
 }
     </tbody>

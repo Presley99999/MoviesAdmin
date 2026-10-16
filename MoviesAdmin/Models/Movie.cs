@@ -10,6 +10,7 @@ namespace MoviesAdmin.Models
         public string Title { get; set; } = string.Empty;
 
         [Required]
+        
         public string Synopsis { get; set; } = string.Empty;
 
         [Required]
@@ -22,9 +23,10 @@ namespace MoviesAdmin.Models
         [Required]
         public int Runtime { get; set; } //Probably in minutes 
 
+        [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}")]
         [Display(Name = "Release Date")]
         [Required]
-        public int ReleaseDate {  get; set; }
+        public DateTime ReleaseDate {  get; set; }
         
     }
 }

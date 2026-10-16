@@ -151,11 +151,5 @@ public class MoviesController : Controller
         return _context.Movie.Any(e => e.Id == id);
     }
 
-    public async Task<IActionResult> AllMovies()
-    {
-        var movies = _context.Movie
-        .OrderBy(m => m.ReleaseDate)
-        .ToList();
-        return View(movies);
-    }
+    
 }
