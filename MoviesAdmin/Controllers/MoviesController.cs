@@ -2,15 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
+using MoviesAdmin.Services;
 
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
+    private readonly IAzureStorageService _storage;
 
-    public MoviesController(MoviesAdminContext context)
+    public MoviesController(MoviesAdminContext context, IAzureStorageService storage)
     {
         _context = context;
+        _storage = storage;
     }
+
 
     // GET: MOVIES
     public async Task<IActionResult> Index()    
@@ -51,14 +55,28 @@ public class MoviesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Synopsis,Genre,Rating,Runtime,ReleaseDate")] Movie movie)
+    public async Task<IActionResult> Create(
+    [Bind("Id,Title,Synopsis,Genre,Rating,Runtime,ReleaseDate")] Movie movie,
+    IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                
+                string imageUrl = await _storage.UploadFileAsync(imageFile, imageFile.FileName);
+
+                
+                movie.ImageUrl = imageUrl;
+            }
+
+            // Save movie in database
             _context.Add(movie);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
         return View(movie);
     }
 
@@ -66,52 +84,44 @@ public class MoviesController : Controller
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
         var movie = await _context.Movie.FindAsync(id);
+
         if (movie == null)
-        {
             return NotFound();
-        }
+
         return View(movie);
     }
+
+
 
     // POST: MOVIES/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,Synopsis,Genre,Rating,Runtime,ReleaseDate")] Movie movie)
+    public async Task<IActionResult> Edit(int id, Movie movie, IFormFile ImageFile)
     {
         if (id != movie.Id)
-        {
             return NotFound();
-        }
 
         if (ModelState.IsValid)
         {
-            try
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                _context.Update(movie);
-                await _context.SaveChangesAsync();
+                var safeName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+                movie.ImageUrl = await _storage.UploadFileAsync(ImageFile, safeName);
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MovieExists(movie.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            _context.Update(movie);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         return View(movie);
     }
+
 
     // GET: MOVIES/Delete/5
     public async Task<IActionResult> Delete(int? id)
@@ -152,4 +162,5 @@ public class MoviesController : Controller
     }
 
     
+
 }

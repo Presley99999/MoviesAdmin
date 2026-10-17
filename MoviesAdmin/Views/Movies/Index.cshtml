@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Poster</th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -40,11 +41,26 @@
                 @Html.DisplayFor(model => item.Title)
             </th>
             <th>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl"
+                             style="width:80px;height:120px;object-fit:cover;border:1px solid #ccc;border-radius:4px;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+            </th>
+                    
+            <th>
                     @(item.Synopsis?.Length > 100
                         ? item.Synopsis.Substring(0, 100) + "..."
                         : item.Synopsis)
 
             </th>
+               
+               
+
             <th>
                 @Html.DisplayFor(model => item.Genre)
             </th>

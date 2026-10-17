@@ -23,6 +23,8 @@ namespace MoviesAdmin.Models
         [Required]
         public int Runtime { get; set; } //Probably in minutes 
 
+        public string ImageUrl { get; set; } = string.Empty;
+
         [DisplayFormat(DataFormatString = "{0:MMMM dd, yyyy}")]
         [Display(Name = "Release Date")]
         [Required]
