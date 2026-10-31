@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create">Add a Movie</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -19,12 +20,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Synopsis)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
+            <th>Genre</th>
+            <th>Audience Rating</th>
             <th>
                 @Html.DisplayNameFor(model => model.Runtime)
             </th>
@@ -34,52 +31,57 @@
             <th></th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
-            <th>
+
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl"
+                         style="width:80px;height:120px;object-fit:cover;border:1px solid #ccc;border-radius:4px;" />
+                }
+                else
+                {
+                    <span>No Image</span>
+                }
+            </td>
+
+            <td>
                 @Html.DisplayFor(model => item.Title)
-            </th>
-            <th>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl"
-                             style="width:80px;height:120px;object-fit:cover;border:1px solid #ccc;border-radius:4px;" />
-                    }
-                    else
-                    {
-                        <span>No Image</span>
-                    }
-            </th>
-                    
-            <th>
-                    @(item.Synopsis?.Length > 100
-                        ? item.Synopsis.Substring(0, 100) + "..."
-                        : item.Synopsis)
+            </td>
 
-            </th>
-               
-               
+            <td>
+                @(item.Synopsis?.Length > 100
+                    ? item.Synopsis.Substring(0, 100) + "..."
+                    : item.Synopsis)
+            </td>
 
-            <th>
-                @Html.DisplayFor(model => item.Genre)
-            </th>
-            <th>
-                @Html.DisplayFor(model => item.Rating)
-            </th>
-            <th>
-                @Html.DisplayFor(model => item.Runtime) mins 
-            </th>
-            <th>
+            <td>
+                @item.Genre.Title
+            </td>
+
+            <td>
+                @item.AudienceRating.Title
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.Runtime) mins
+            </td>
+
+            <td>
                 @Html.DisplayFor(model => item.ReleaseDate)
-            </th>
-            <th>
+            </td>
+
+            <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-               
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </th>
+            </td>
         </tr>
 }
     </tbody>
