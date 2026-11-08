@@ -8,4 +8,6 @@ public class MoviesAdminContext(DbContextOptions<MoviesAdminContext> options) : 
     public DbSet<Genre> Genre { get; set; } = default!;
 
     public DbSet<AudienceRating> AudienceRating { get; set; } = default!;
+
+    public DbSet<CriticReview> CriticReview { get; set; } = default!;
 }

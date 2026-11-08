@@ -1,0 +1,66 @@
+@model IEnumerable<MoviesAdmin.Models.CriticReview>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reviews</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie)
+            </th>
+            <th>
+                Review
+            <th>
+                @Html.DisplayNameFor(model => model.Rating) 
+            </th>
+            
+            <th>
+                Created by
+            </th>
+            <th>
+                Created date
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Movie.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Rating)/5
+            </td>
+            
+            <td>
+                @Html.DisplayFor(model => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CreatedDate)
+            </td>
+            
+            
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                @if (User.IsInRole("administrator") ||
+                    item.CreatedBy == User.Identity?.Name)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

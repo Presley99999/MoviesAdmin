@@ -42,6 +42,9 @@ namespace MoviesAdmin.Models
         [Display(Name = "Release Date")]
         [Required]
         public DateTime ReleaseDate {  get; set; }
-        
+
+        public List<CriticReview> CriticReviews { get; set; } = new();
+
+
     }
 }

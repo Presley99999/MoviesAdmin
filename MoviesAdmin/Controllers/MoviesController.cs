@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MoviesAdmin.Models;
 using MoviesAdmin.Services;
-
+using Microsoft.AspNetCore.Authorization;
 public class MoviesController : Controller
 {
     private readonly MoviesAdminContext _context;
@@ -47,6 +47,7 @@ public class MoviesController : Controller
     }
 
     // GET: Movies/Create
+    [Authorize(Roles = "administrator")]
     public IActionResult Create()
     {
         var genres = _context.Genre.ToList();
@@ -61,6 +62,7 @@ public class MoviesController : Controller
     // POST: Movies/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Create(
         [Bind("Id,Title,Synopsis,GenreId,AudienceRatingId,Runtime,ReleaseDate")]
     Movie movie,
@@ -99,6 +101,7 @@ public class MoviesController : Controller
     }
 
     // GET: Movies/Edit/5
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -127,10 +130,12 @@ public class MoviesController : Controller
     // POST: Movies/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Edit(
         int id,
+        [Bind("Id,Title,Synopsis,GenreId,AudienceRatingId,Runtime,ReleaseDate,ImageUrl")]
         Movie movie,
-        IFormFile ImageFile)
+        IFormFile? ImageFile)
     {
         if (id != movie.Id)
             return NotFound();
@@ -147,6 +152,26 @@ public class MoviesController : Controller
                     await _storage.UploadFileAsync(
                         ImageFile,
                         safeName);
+            }
+            var existingMovie = await _context.Movie
+                .AsNoTracking()
+                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (existingMovie == null)
+            {
+                return NotFound();
+            }
+
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                var safeName = Guid.NewGuid().ToString() +
+                               Path.GetExtension(ImageFile.FileName);
+
+                movie.ImageUrl = await _storage.UploadFileAsync(ImageFile, safeName);
+            }
+            else
+            {
+                movie.ImageUrl = existingMovie.ImageUrl;
             }
 
             _context.Update(movie);
@@ -171,6 +196,7 @@ public class MoviesController : Controller
     }
 
     // GET: Movies/Delete/5
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -190,6 +216,7 @@ public class MoviesController : Controller
     // POST: Movies/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var movie = await _context.Movie.FindAsync(id);
